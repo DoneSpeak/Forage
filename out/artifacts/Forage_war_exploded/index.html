@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src="static/jquery-3.2.0.js"></script>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<button type="button" id="btn">测试</button>
+</body>
+<script>
+    $(function(){
+        $('#btn').click(function(){
+            alert("点击");
+           $.ajax({
+               url:"/getStu",
+               data:"",
+               method: "POST",
+               success:function(data){
+                   alert(data.name);
+               },
+               error:function(error){
+                   alert("错误");
+               }
+
+           })
+        });
+    });
+</script>
+</html>
