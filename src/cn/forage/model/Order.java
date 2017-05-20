@@ -1,6 +1,6 @@
 package cn.forage.model;
 
-import cn.forage.enums.OrderState;
+//import cn.forage.enums.OrderState;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -16,7 +16,7 @@ public class Order {
     private Timestamp code;
     private Address address;
 //    订单状态
-    private OrderState state;
+    private String state;
     private Date createTime;
     private Date finishTime;
 //    下单人
@@ -52,11 +52,11 @@ public class Order {
         this.address = address;
     }
 
-    public OrderState getState() {
+    public String getState() {
         return state;
     }
 
-    public void setState(OrderState state) {
+    public void setState(String state) {
         this.state = state;
     }
 

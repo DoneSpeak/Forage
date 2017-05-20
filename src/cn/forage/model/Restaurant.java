@@ -1,6 +1,6 @@
 package cn.forage.model;
 
-import cn.forage.enums.RestaurantState;
+//import cn.forage.enums.RestaurantState;
 
 import java.util.Date;
 
@@ -83,8 +83,8 @@ public class Restaurant {
         return state;
     }
 
-    public void setState(RestaurantState state) {
-        this.state = state.toString();
+    public void setState(String state) {
+        this.state = state;
     }
 
     public String getRestaurantImg() {

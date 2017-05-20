@@ -5,7 +5,7 @@
 <!--这块等于dao接口的实现  namespace必须和接口的类路径一样-->
 <mapper namespace="cn.forage.dao.OrderDao">
 
-    <resultMap id="BaseResultMap" type="cn.forage.model.User" >
+    <resultMap id="BaseResultMap" type="cn.forage.model.Order" >
         <result column="id" property="id" jdbcType="INTEGER"/>
         <result column="code" property="code"  jdbcType="INTEGER"/>
         <result column="userId" property="userId"  jdbcType="INTEGER"/>

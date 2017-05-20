@@ -23,6 +23,13 @@
         <setting name="defaultStatementTimeout" value="25000" />
     </settings>
 
+    <typeAliases>
+        <!--给实体类起一个别名 user -->
+        <typeAlias type="cn.forage.model.User" alias="User" />
+        <typeAlias type="cn.forage.model.Restaurant" alias="Restaurant" />
+        <typeAlias type="cn.forage.model.Order" alias="Order" />
+    </typeAliases>
+
     <!-- 全局别名设置，在映射文件中只需写别名，而不必写出整个类路径  -->
     <!-- <typeAliases>
          <typeAlias alias="TestBean"

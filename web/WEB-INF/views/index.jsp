@@ -12,8 +12,8 @@
 </head>
 <body>
     <%
-        Student str = (Student)request.getAttribute("student");
+        Student str = (Student)request.getAttribute("user");
     %>
-    <%= str.getName() %>
+    <% %>
 </body>
 </html>
