@@ -10,5 +10,4 @@ import java.util.List;
  */
 public interface RestaurantDao  extends Dao<Restaurant>,PageDao<Restaurant> {
     public Restaurant getOneRestaurantByphoneNum(String phoneNum);//通过phoneNum返回Restaurant对象
-
 }

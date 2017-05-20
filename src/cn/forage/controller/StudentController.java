@@ -13,6 +13,8 @@ import cn.forage.dao.StudentDao;
 import cn.forage.model.Student;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 /**
@@ -31,7 +33,8 @@ public class StudentController {
     @RequestMapping("/index")
     @ResponseBody
 //    含有 @ResponseBody ,返回相当于respond.write，对应ajax请求的返回
-    public Restaurant getStu(){
+    public Restaurant getStu(HttpServletRequest req, HttpSession session){
+
         Restaurant rest = null;
         try{
             rest = restDao.getOne(7);
