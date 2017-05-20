@@ -4,22 +4,16 @@ package cn.forage.model;
  * Created by DoneSpeak on 2017/5/17.
  */
 public class Result {
-    private int status;
-    private String message;
+    public static final int OK = 1;
+    public static final int ERROR = 0;
 
-    public int getStatus() {
-        return status;
-    }
+    public int status;
+    public String message;
 
-    public void setStatus(int status) {
+    public Result(){}
+
+    public Result(int status,String message){
         this.status = status;
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
         this.message = message;
     }
 }

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC
+        "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--这块等于dao接口的实现  namespace必须和接口的类路径一样-->
+<mapper namespace="cn.forage.dao.OrderDao">
+
+    <resultMap id="BaseResultMap" type="cn.forage.model.User" >
+        <result column="id" property="id" jdbcType="INTEGER"/>
+        <result column="code" property="code"  jdbcType="INTEGER"/>
+        <result column="userId" property="userId"  jdbcType="INTEGER"/>
+        <result column="restaurantId" property="restaurantId" jdbcType="INTEGER"/>
+        <result column="address" property="address" jdbcType="INTEGER"/>
+        <result column="createtime" property="createtime" jdbcType="DATE"/>
+        <result column="finishtime" property="finishtime" jdbcType="DATE"/>
+
+    </resultMap>
+
+
+    <!-- findById必须和接口中的方法名一样  返回一个User  就是刚才的别名  如果不弄别名要连类路径一起写 麻烦-->
+    <select id="getOrderById" parameterType="int" resultMap="BaseResultMap">
+        select* from order where id=#{id}
+    </select>
+
+    <select id="getOrderByUserId" parameterType="int" resultMap="BaseResultMap">
+        select* from order where userId=#{userId}
+    </select>
+
+
+    <select id="getOrderByCode" resultMap="BaseResultMap">
+        SELECT * from order where code=#{code}
+    </select>
+
+    <!-->订单<-->
+    <insert id="insertOneOrder" parameterType="Order">
+        INSERT  into order(code,userId,restaurantId,address,createTime,finishTime)values(#{code},#{userId},#{restaurantId},#{address},#{createTime},#{finishTime})
+    </insert>
+
+    <!-->删除订单<-->
+    <delete id="deleteOrderById" parameterType="int">
+        DELETE  from order where id=#{id}
+    </delete>
+
+    <!-->删除订单<-->
+    <delete id="deleteOrderByCode" parameterType="int">
+        DELETE  from order where code=#{code}
+    </delete>
+
+    <!-->修改订单属性<-->
+    <update id="updateOneOrder" parameterType="User">
+        UPDATE  order set code=#{code},userId=#{userId},restaurantId=#{restaurantId},address=#{address},createTime=#{createTime},finishTime=#{finishTime}
+    </update>
+</mapper>

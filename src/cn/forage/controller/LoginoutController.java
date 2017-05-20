@@ -62,7 +62,14 @@ public class LoginoutController {
         }
 //        先判断用户是否已经注册
 //        已注册
-        if(userDao.isExist(user)){
+        boolean isExist = true;
+        try {
+            userDao.isExist(user);
+        }catch (Exception ex){
+            ex.printStackTrace();
+            return "{\"status\":\"0\",\"message\":\"注册失败\"}";
+        }
+        if(isExist){
             return "{\"status\":\"0\",\"message\":\"用户已存在\"}";
         }
 

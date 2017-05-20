@@ -49,4 +49,14 @@
         <url-pattern>/*</url-pattern>
     </filter-mapping>
 
+    <!--权限控制器-->
+    <!--<filter>-->
+        <!--<filter-name>rghtFilter</filter-name>-->
+        <!--<filter-class>cn.forage.service.RightFilter</filter-class>-->
+    <!--</filter>-->
+    <!--<filter-mapping>-->
+        <!--<filter-name>rghtFilter</filter-name>-->
+        <!--<url-pattern>/*</url-pattern>-->
+    <!--</filter-mapping>-->
+
 </web-app>
