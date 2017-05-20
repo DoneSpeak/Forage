@@ -1,16 +1,16 @@
-
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>首页</title>
-    <link rel="stylesheet" href="static/easyui/themes/default/easyui.css">
-    <link rel="stylesheet" href="static/easyui/themes/icon.css">
-    <link rel="stylesheet" href="static/bootstrap/css/bootstrap.css">
-    <script src="static/jquery-3.2.0.js"></script>
-    <script src="static/easyui/jquery.easyui.min.js"></script>
-    <script src="static/easyui/locale/easyui-lang-zh_CN.js"></script>
-    <script src="static/bootstrap/js/bootstrap.js"></script>
+    <link rel="stylesheet" href="../../static/easyui/themes/default/easyui.css">
+    <link rel="stylesheet" href="../../static/easyui/themes/icon.css">
+    <link rel="stylesheet" href="../../static/bootstrap/css/bootstrap.css">
+    <script src="../../static/jquery-3.2.0.js"></script>
+    <script src="../../static/easyui/jquery.easyui.min.js"></script>
+    <script src="../../static/easyui/locale/easyui-lang-zh_CN.js"></script>
+    <script src="../../static/bootstrap/js/bootstrap.js"></script>
 </head>
 
 

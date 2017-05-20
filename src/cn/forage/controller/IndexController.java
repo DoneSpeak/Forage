@@ -20,14 +20,14 @@ public class IndexController {
 
     @RequestMapping("/index")
     public String index(Model model){
-        ArrayList<Restaurant> restList = null;
-        try {
-            restList = (ArrayList<Restaurant>) restDao.getAll();
-        }catch(Exception ex){
-            ex.printStackTrace();
-            return "404";
-        }
-        model.addAttribute("restList",restList);
+//        ArrayList<Restaurant> restList = null;
+//        try {
+//            restList = (ArrayList<Restaurant>) restDao.getAll();
+//        }catch(Exception ex){
+//            ex.printStackTrace();
+//            return "404";
+//        }
+//        model.addAttribute("restList",restList);
         return "index";
     }
 
