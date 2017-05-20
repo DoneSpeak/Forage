@@ -1,5 +1,7 @@
 package cn.forage.controller;
 
+import cn.forage.dao.RestaurantDao;
+import cn.forage.model.Restaurant;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
@@ -11,42 +13,56 @@ import cn.forage.dao.StudentDao;
 import cn.forage.model.Student;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 /**
  * Created by DoneSpeak on 2017/5/17.
  */
 //声明为控制器
 @Controller
-//@RequestMapping("/admin")
+//@RequestMapping("/index")
 //不配置该类的路径，则默认为根路径
 public class StudentController {
     @Autowired
     private StudentDao stuDao;
+    @Autowired
+    private RestaurantDao restDao;
 
-    @RequestMapping("/getStuAjax")
+    @RequestMapping("/index")
     @ResponseBody
 //    含有 @ResponseBody ,返回相当于respond.write，对应ajax请求的返回
-    public Student getStu(){
-        Student stu = stuDao.findById(27);
-        return stu;
+    public Restaurant getStu(){
+        Restaurant rest = null;
+        try{
+            rest = restDao.getOne(7);
+            System.out.print(rest.getName());
+        }catch(Exception e){
+            System.err.print(e);
+            System.out.print(e);
+        }
+//        Student stu = stuDao.findById(27);
+//        stuDao.deleteById(31);
+
+        return rest;
     }
 
     @RequestMapping(value = "/getStu")
-    public String getStuUrl(HttpServletRequest request){
+//    @ResponseBody
+//    public String getStuUrl(HttpServletRequest request){
+    public String getStuUrl(){
         Student stu = new Student();
-        stu.setUid(1);
         stu.setName("haha");
         stu.setAge(12);
-        int i = 0;
+        int i = -1;
         try {
             i = stuDao.insert(stu);
         }catch(Exception e){
             System.out.println(e);
         }
-        System.out.print("测试");
+        System.out.print("测试" + i);
 
 //        与下面的Model相同 - 传递数据到
-        request.setAttribute("student", stu);
+//        request.setAttribute("student", stu);
         return "index";
     }
 
@@ -58,5 +74,11 @@ public class StudentController {
         model.addAttribute("student",stu);
 
         return "index";
+    }
+
+    public static void main(String[] args){
+        StudentController tst = new StudentController();
+        Restaurant rest = tst.getStu();
+        System.out.print(rest.getName());
     }
 }

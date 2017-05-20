@@ -11,7 +11,7 @@
        http://www.springframework.org/schema/context/spring-context.xsd">
 
     <!--引入数据库配置文件-->
-    <context:property-placeholder location="classpath:config/db.properties"/>
+    <context:property-placeholder location="classpath:db.properties"/>
     <!--数据库源-->
     <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource">
         <property name="driverClassName" value="${db.driver}" />

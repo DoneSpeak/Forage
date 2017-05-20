@@ -13,17 +13,28 @@ public class Restaurant {
     private User owner;
     private String phoneNum;
     private String location;
-    private Date createDate;
-    private RestaurantState state;
+    private Date createdDate;
+    private String state;
     private String restaurantImg;
+
+    @Override
+    public String toString() {
+        return "Restaurant{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", owner=" + owner +
+                ", phoneNum='" + phoneNum + '\'' +
+                ", location='" + location + '\'' +
+                ", createdDate=" + createdDate +
+                ", state='" + state + '\'' +
+                ", restaurantImg='" + restaurantImg + '\'' +
+                '}';
+    }
 
     public int getId() {
         return id;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
 
     public String getName() {
         return name;
@@ -58,19 +69,19 @@ public class Restaurant {
     }
 
     public Date getCreateDate() {
-        return createDate;
+        return createdDate;
     }
 
     public void setCreateDate(Date createDate) {
-        this.createDate = createDate;
+        this.createdDate = createDate;
     }
 
-    public RestaurantState getState() {
+   public String getState() {
         return state;
     }
 
     public void setState(RestaurantState state) {
-        this.state = state;
+        this.state = state.toString();
     }
 
     public String getRestaurantImg() {

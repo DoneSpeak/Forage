@@ -1,8 +1,20 @@
 package cn.forage.dao;
 
+import cn.forage.model.Order;
+
+import java.util.List;
+
 /**
  * Created by DoneSpeak on 2017/5/17.
  */
 public interface OrderDao {
-//    该DAO不必对应Order类，只要根据需求写即可
+    public Order getOrderById();
+    public Order getOrderByCode();
+    public List getOrderByUserId();
+
+    public int insertOneOrder(Order order);
+    public int deleteOrderById(int id);
+    public int deleteOrderByCode();
+    public int updateOneOrder();
+
 }

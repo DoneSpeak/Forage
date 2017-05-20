@@ -17,7 +17,7 @@
     </delete>
     <!--keyProperty 表示返回的主键 -->
     <insert id="insert" keyProperty="uid"  parameterType="cn.forage.model.Student">
---   INSERT INTO student(name,age) VALUES(#{name},#{age})
-        INSERT INTO student(name) VALUES(#{name})
+  INSERT INTO student(name,age) VALUES(#{name},#{age})
+--         INSERT INTO student(name) VALUES(#{name})
     </insert>
 </mapper>

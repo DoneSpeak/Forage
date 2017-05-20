@@ -36,7 +36,7 @@ public class Loginout {
     @RequestMapping("/logout")
     public String logout(){
 //        判断用户是否已经登录，登录后才能登出
-//        清空sessiong
+//        清空session
         return "index";
     }
 

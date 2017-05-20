@@ -2,6 +2,7 @@ package cn.forage.model;
 
 import cn.forage.enums.OrderState;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -12,7 +13,7 @@ import java.util.Date;
 public class Order {
     private int id;
 //    订单编号
-    private int code;
+    private Timestamp code;
     private Address address;
 //    订单状态
     private OrderState state;
@@ -35,11 +36,11 @@ public class Order {
         this.id = id;
     }
 
-    public int getCode() {
+    public Timestamp getCode() {
         return code;
     }
 
-    public void setCode(int code) {
+    public void setCode(Timestamp code) {
         this.code = code;
     }
 

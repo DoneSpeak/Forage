@@ -1,5 +1,7 @@
 package cn.forage.dao;
 
+import org.apache.ibatis.annotations.Param;
+
 import java.util.ArrayList;
 
 /**
@@ -8,6 +10,6 @@ import java.util.ArrayList;
 public interface PageDao<T> {
     public ArrayList<T> getFirstPage(int pageSize) throws Exception;
     public ArrayList<T> getLastPage(int pageSize) throws Exception;
-    public ArrayList<T> getOnePage(int pageSize, int index) throws Exception;
+    public ArrayList<T> getOnePage(@Param("pageSize") int pageSize, @Param("index") int index) throws Exception;
     public int getPageAmount(int pageSize) throws Exception;
 }

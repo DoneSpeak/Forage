@@ -49,4 +49,23 @@
         <url-pattern>/*</url-pattern>
     </filter-mapping>
 
+    <!--权限控制器-->
+    <filter>
+        <filter-name>userRightFilter</filter-name>
+        <filter-class>cn.forage.service.UserRightFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>userRightFilter</filter-name>
+        <url-pattern>/order</url-pattern>
+        <url-pattern>/admin</url-pattern>
+    </filter-mapping>
+    <!--店铺管理 权限控制器-->
+    <filter>
+        <filter-name>adminRightFilter</filter-name>
+        <filter-class>cn.forage.service.AdminRightFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>adminRightFilter</filter-name>
+        <url-pattern>/admin</url-pattern>
+    </filter-mapping>
 </web-app>
