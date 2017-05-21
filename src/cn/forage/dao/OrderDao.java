@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * Created by DoneSpeak on 2017/5/17.
  */
-public interface OrderDao extends PageDao{
+public interface OrderDao extends PageDao<Order>{
 
     //根据餐厅id来获取订单列表
     public ArrayList<Order>getByRestaurantId(int restaurantId);
@@ -25,4 +25,11 @@ public interface OrderDao extends PageDao{
     //更新订单
     public int updateOne(@Param("order") Order order, @Param("orderId") int orderId);
 
+//    [TODO] 取消订单 - 设置订单状态为cancel即可
+    public int cancel(int userId, int restaurantId);
+
+//    [TODO] 根据用户id，获取该用户所有订单
+    public ArrayList<Order> getAll(int userId) throws Exception;
+
+    public int addFood2Order(FoodItem foodItem) throws Exception;
 }

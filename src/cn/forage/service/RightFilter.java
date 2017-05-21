@@ -26,14 +26,18 @@ public class RightFilter implements Filter {
 //        路径判断
         String servletPath = ((HttpServletRequest) req).getServletPath();
 //       用户限制
-        if(servletPath.startsWith("/signin") || servletPath.startsWith("/signup") || servletPath.startsWith("/signout")){
+        if(servletPath.toLowerCase().startsWith("/signin")
+                || servletPath.toLowerCase().startsWith("/signup")
+                || servletPath.toLowerCase().startsWith("/signout")){
 //            用户已经登录，则直接进入首页，否则正常进入
             if(user == null){
                 chain.doFilter(req, resp);
             }else{
                 ((HttpServletResponse)resp).sendRedirect("/index");
             }
-        }else if(servletPath.startsWith("/order")){
+        }else if(servletPath.toLowerCase().startsWith("/order")
+                || servletPath.toLowerCase().startsWith("/cart/operate")
+                || servletPath.toLowerCase().startsWith("/customer")){
 // 没有登录去到index
             if(user == null){
                 ((HttpServletResponse)resp).sendRedirect("/index");

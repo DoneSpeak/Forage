@@ -7,7 +7,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
  * Created by DoneSpeak on 2017/5/20.
  */
 @Controller
+@RequestMapping("/admin")
 public class AdminController {
+
+    @RequestMapping("/index")
+    public String index(){
+        return "adminindex";
+    }
+
     @RequestMapping("/center")
     public String center(){
         return "center"; // -》 center.jsp

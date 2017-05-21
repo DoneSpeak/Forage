@@ -133,7 +133,7 @@
     <column id="44" parent="18" name="picture">
       <Position>5</Position>
       <DataType>varchar(100)|0</DataType>
-      <DefaultExpression>&apos;http://localhost:8080/img/defaultfood.jpg&apos;</DefaultExpression>
+      <DefaultExpression>&apos;http://localhost:8080/static/img/defaultfood.jpg&apos;</DefaultExpression>
     </column>
     <column id="45" parent="18" name="restaurantId">
       <Position>6</Position>

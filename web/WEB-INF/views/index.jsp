@@ -9,70 +9,24 @@
 <head>
   <meta charset="UTF-8">
   <link rel="shortcut icon" type="image/x-icon" href="favicon.ico" />
-  <link href="bootstrap-3.3.0/css/bootstrap.min.css" rel="stylesheet"/>
+  <link href="/static/bootstrap-3.3.0/css/bootstrap.min.css" rel="stylesheet"/>
   <!--<link href="css/global.css" rel="stylesheet"/>-->
-  <link href="css/non-responsive.css" rel="stylesheet">
-  <link href="css/global.css" rel="stylesheet">
-  <link href="css/index.css" rel="stylesheet">
+  <link href="/static/css/non-responsive.css" rel="stylesheet">
+  <link href="/static/css/global.css" rel="stylesheet">
+  <link href="/static/css/index.css" rel="stylesheet">
   <title>觅食</title>
 </head>
 <body>
-<!--顶上小导航栏-->
-  <div class="header-slim">
-    <nav class="navbar">
-        <div class="container">
-          <div class="tag-left">
-            <a href="#"></a>
-          </div>
-          <div class="tag-right header-slim-link">
-            <span>
-              <a href="#">登录</a>&nbsp;|&nbsp;<a href="#">注册</a>
-            </span>
-            <a href="#">帮助中心</a>
-            <a href="#">问题反馈</a>
-            <a href="#">联系客服</a>
-          </div>
-        </div>
-    </nav>
-  </div>
-<!--主要导航栏-->
-  <div class="header-bar-container">
-    <nav class="navbar">
-      <div class="container">
-        <div class="row">
-          <div class="navbar-header col-xs-3 header-bar-item">
-            <a href="#" class="navbar-brand">
-              <img src="img/logo.png" />
-            </a>
-          </div>
-          <div class="col-xs-2 header-bar-item">
-            <a href="#">首页</a>
-          </div>
-          <div class="col-xs-2 header-bar-item">
-            <a href="#">我的订单</a>
-          </div>
-          <div class="col-xs-2 header-bar-item">
-            <a href="#">入驻加盟</a>
-          </div>
-          <div class="col-xs-3 header-bar-item">
-            <div class="input-group">
-              <input type="text" class="form-control" placeholder="Search for...">
-              <span class="input-group-btn">
-                <button class="btn btn-default" type="button">Go!</button>
-              </span>
-            </div><!-- /input-group -->
-          </div>
-        </div>
-      </div>
-    </nav>
-  </div>
+  <%--- 导航栏 --%>
+  <%--<jsp:include page="component/nav.jsp" >--%>
+  <%@ include file="component/nav.jsp" %>
 
   <div class="cantainer main">
       <%
            //属性名称需要进行修改"foodItems"
           ArrayList<Restaurant> restaurant_list = (ArrayList<Restaurant>) request.getAttribute("restaurants");
-
-          for (int index = 0; index < restaurant_list.size();index++) {
+          int index = 0;
+          for (index = 0; index < restaurant_list.size();index++) {
               Restaurant restaurant = restaurant_list.get(index);
               if (index+1==1) {
                   //System.out.println("before--" + index);
@@ -83,7 +37,7 @@
         %>
       <div class="col-xs-3 card-shop">
         <div class="preview">
-          <img src="<%=restaurant.getRestaurantImg()%>"/>
+          <a href="/restaurant/<%= restaurant.getId() %>"><img src="<%=restaurant.getRestaurantImg()%>"/></a>
         </div>
         <div class="content">
           <div class="name"><%=restaurant.getName()%></div>
@@ -107,6 +61,13 @@
                   }
               %>
 
+          <%if (index % 4 != 0) {
+              //System.out.println("after--" + index);%>
+          <div class="divider-rest clear"></div>
+    </div>
+          <%
+            }
+          %>
 
     <div class="row add-more">
       加载更多
@@ -147,8 +108,8 @@
     <p>&copy;2017 forage.cn 开发者：杨观荣 | 刘基雄 | 姜剑辉 | 徐荣钦 | 吴超均</p>
   </div>
 </body>
-<script src="js/jquery-2.1.4.min.js"></script>
-<script src="bootstrap-3.3.0/js/bootstrap.min.js"></script>
+<script src="/static/js/jquery-2.1.4.min.js"></script>
+<script src="/static/bootstrap-3.3.0/js/bootstrap.min.js"></script>
 <!-- scrollbar 必须在jquery和bootstrap后面 -->
-<script src="js/scrollbar.js"></script>
+<script src="/static/js/scrollbar.js"></script>
 </html>

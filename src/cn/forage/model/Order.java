@@ -7,14 +7,14 @@ public class Order {
   private int id;
   private Timestamp code;
   private int userId;
-  private String address;
+  private int address;
   private String state;
   private String phoneNum;
   private float total;
   private Date createtime;
   private int restaurantId;
 
-  public Order(int id, Timestamp code, int userId, String address, String state, String phoneNum, float toatal, Date createtime, int restaurantId) {
+  public Order(int id, Timestamp code, int userId, int address, String state, String phoneNum, float toatal, Date createtime, int restaurantId) {
     this.id = id;
     this.code = code;
     this.userId = userId;
@@ -99,11 +99,11 @@ public class Order {
   }
 
 
-  public String getAddress() {
+  public int getAddress() {
     return address;
   }
 
-  public void setAddress(String address) {
+  public void setAddress(int address) {
     this.address = address;
   }
 

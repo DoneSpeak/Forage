@@ -22,11 +22,14 @@ $(function(){
       init:function(){
 
         this.restaurantId = $("#restaurant").data("id");
-
+        var data = {
+          restaurantId: restaurantId
+        }
         // 向服务器请求购物车数据
         $.ajax({
-          url:"/cart/" + this.restaurantId,
-          data:"",
+          url:"/cart/list",
+          method:"POST",
+          data:data,
           success:function(result){
             if(result.status == 1){
               var cart = result.cart;
@@ -71,13 +74,14 @@ $(function(){
         // $(".cart-add" ).on("click",$.proxy(this.increaseOne, this));
         // $(".cart-add" ).on("click",this.increaseOne);
         // $(document).on("click",".cart-sub",this.decreaseOne);
-        $(document).on("click",".cart-sub",$.proxy(this.decreaseOne, this));
-        $(document).on("click",".cart-add",$.proxy(this.increaseOne, this));
+
+        // $(document).on("click",".cart-sub",$.proxy(this.decreaseOne, this));
+        // $(document).on("click",".cart-add",$.proxy(this.increaseOne, this));
 
         this.$clearcart.on("click",$.proxy(this.clearCart, this));
         // [TODO]连接后台后用这个
-        // $(document).on("click",".cart-sub",{distNum:-1},$.proxy(this.changeCartItemNum, this));
-        // $(document).on("click",".cart-add",{distNum:-1},$.proxy(this.changeCartItemNum, this));
+        $(document).on("click",".cart-sub",{action:"decrease"},$.proxy(this.changeCartItemNum, this));
+        $(document).on("click",".cart-add",{action:"increase"},$.proxy(this.changeCartItemNum, this));
       },
 
       clickAddOne:function(e){
@@ -85,50 +89,61 @@ $(function(){
         // var num = $(e.target).attr("data-num");
         var _this = this;
         var exist = false;
-        // 寻找数组的指定元素
-        $.each( this.productList, function( key, item ) {
-          if(item.foodId == data.id){
-            // 找到购物车中的项
-            item.$numByBtn.text(parseInt(item.num)+1);
-            item.num += 1*1;
-            
-            item.$num.val(parseInt(item.num));
 
-            var curNum = _this.$costNum.text();
+        $.ajax({
+            url: "/cart/operate/" + action,
+            method:"POST",
+            data: data,
+            success: function (result) {
+                // 寻找数组的指定元素
+                $.each( this.productList, function( key, item ) {
+                    if(item.foodId == data.id){
+                        // 找到购物车中的项
+                        item.$numByBtn.text(parseInt(item.num)+1);
+                        item.num += 1*1;
 
-            _this.$costNum.text(parseInt(curNum) + 1);
-            _this.$costAmount.text(parseInt(_this.$costAmount.text())+ item.price);
+                        item.$num.val(parseInt(item.num));
 
-            exist = true;
-          }
-        });
-        // console.log(data);
-        // console.log( $(e.target));
-        // 购物车内没有该商品
+                        var curNum = _this.$costNum.text();
 
-        if(!exist){
+                        _this.$costNum.text(parseInt(curNum) + 1);
+                        _this.$costAmount.text(parseInt(_this.$costAmount.text())+ item.price);
+
+                        exist = true;
+                    }
+                });
+                // console.log(data);
+                // console.log( $(e.target));
+                // 购物车内没有该商品
+
+                if(!exist){
 // 创建购物车项
-          var item = {};
+                    var item = {};
 
-          item.foodId = data.id;
-          // console.log(item);          
-          // 插入购物车
-          item.price = data.price;
-          item.name = data.name;
-          item.num = 1;
+                    item.foodId = data.id;
+                    // console.log(item);
+                    // 插入购物车
+                    item.price = data.price;
+                    item.name = data.name;
+                    item.num = 1;
 
 
-          item.$numByBtn = $(this.numByBtn);
-          item.$cartItem = this.createCartItem(item);
-          item.$num = item.$cartItem.find(".num");
+                    item.$numByBtn = $(this.numByBtn);
+                    item.$cartItem = this.createCartItem(item);
+                    item.$num = item.$cartItem.find(".num");
 
-          // 显示图标
-          $(e.target).before(item.$numByBtn);
-          $(e.target).attr("data-num",1);
+                    // 显示图标
+                    $(e.target).before(item.$numByBtn);
+                    $(e.target).attr("data-num",1);
 
-          this.appendToCart(item);
-          this.productList.push(item);
-        }
+                    this.appendToCart(item);
+                    this.productList.push(item);
+                }
+            },
+            error: function (result) {
+                _this.alert(result.message);
+            }
+        });
       },
 
       increaseOne:function(e){
@@ -137,7 +152,7 @@ $(function(){
         // console.log(this);
         // console.log($(e.target));
         var data =  $(e.target).data();
-        console.log(data.id);
+        // console.log(data.id);
 
         $.each( this.productList, function( key, item ) {
 
@@ -159,10 +174,10 @@ $(function(){
       decreaseOne:function(e){
         var _this = this;
 
-        console.log(this);
-        console.log($(e.target));
+        // console.log(this);
+        // console.log($(e.target));
         var data =  $(e.target).data();
-        console.log(data.id);
+        // console.log(data.id);
 
 
         for (var i = 0; i < this.productList.length; i ++){
@@ -195,17 +210,18 @@ $(function(){
       changeCartItemNum:function(e){
 
         var _this = this;
-        var distNum = e.data.distNum > 0 ? 1 : -1;
+        // var distNum = e.data.distNum > 0 ? 1 : -1;
+        var action = e.data.action;
 
         var foodId =  $(e.target).data("id");
 
         var data = {
           restaurantId:_this.restaurantId,
-          foodId:foodId,
-          num:distNum
+          foodId:foodId
         };
         $.ajax({
-          url:"/cart/remove",
+          url:"/cart/operate/" + action,
+          method:"POST",
           data:data,
           success:function(result){
 
@@ -261,7 +277,8 @@ $(function(){
         };
 
         $.ajax({
-          url:"/cart/remove/all",
+          url:"/cart/operate/clear",
+          method:"POST",
           data:data,
           success:function(result){
 

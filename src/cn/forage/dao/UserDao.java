@@ -13,7 +13,7 @@ public interface UserDao extends Dao<User> {
 
     //删查改方法成功的话，结果返回均为1;失败的话，返回的结果为0
     public User getUserByphoneNum(String phoneNum);//通过phoneNum返回User对象
-    public User getUser(@Param("userName") String userName, @Param("password") String password);
+    public User getUser(@Param("phoneNum") String phoneNum, @Param("password") String password);
     //获取页
     public ArrayList<User> getFirstPage(int pageSize) throws Exception;
     public ArrayList<User> getLastPage(int pageSize) throws Exception;
@@ -22,5 +22,5 @@ public interface UserDao extends Dao<User> {
 
     public int isExist(User user)throws Exception;
 
-    public int hasRestaurant(int id);
+    public int hasRestaurant(int id) throws Exception;
 }

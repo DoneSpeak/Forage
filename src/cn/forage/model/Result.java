@@ -9,4 +9,19 @@ public class Result {
 
     public int status;
     public String message;
+    public Object data;
+
+    public Result(){}
+
+    public Result(int status, String message){
+        this.status = status;
+        this.message = message;
+        this.data = null;
+    }
+
+    public Result(int status, String message, Object data){
+        this.status = status;
+        this.message = message;
+        this.data = data;
+    }
 }

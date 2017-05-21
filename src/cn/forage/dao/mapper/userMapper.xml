@@ -21,7 +21,7 @@
     </select>
 
     <select id="getUser" resultMap="UserBaseResultMap">
-        select* from user where name=#{userName} and password=#{password}
+        select* from user where phoneNum=#{phoneNum} and password=#{password}
     </select>
 
 
