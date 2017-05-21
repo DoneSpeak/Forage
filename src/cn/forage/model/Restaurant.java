@@ -1,7 +1,5 @@
 package cn.forage.model;
 
-//import cn.forage.enums.RestaurantState;
-
 import java.util.Date;
 
 /**
@@ -15,14 +13,27 @@ public class Restaurant {
     private String location;
     private Date createdDate;
     private String state;
+
+    public Date getCreatedDate() {
+        return createdDate;
+    }
+
     private String restaurantImg;
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setCreatedDate(Date createdDate) {
+        this.createdDate = createdDate;
+    }
 
     @Override
     public String toString() {
         return "Restaurant{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", owner=" + owner +
+                ", owner=" + owner.toString() +
                 ", phoneNum='" + phoneNum + '\'' +
                 ", location='" + location + '\'' +
                 ", createdDate=" + createdDate +
@@ -35,9 +46,6 @@ public class Restaurant {
         return id;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
 
     public String getName() {
         return name;

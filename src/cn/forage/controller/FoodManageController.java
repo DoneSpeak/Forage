@@ -1,7 +1,7 @@
 package cn.forage.controller;
 
 import cn.forage.dao.FoodDao;
-import cn.forage.model.Food;
+import cn.forage.model.FoodItem;
 import cn.forage.model.Result;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
@@ -42,7 +42,7 @@ public class FoodManageController {
         Result result = new Result();
         try {
             // 解析菜品
-            Food food = this.parseFood(req);
+            FoodItem food = this.parseFood(req);
 
             if(food==null){
                 result.status = Result.ERROR;
@@ -54,7 +54,7 @@ public class FoodManageController {
 
             int count = -1;
             try {
-                foodDao.addOne(food);
+                foodDao.addOneFood(food);
             }catch(Exception ex){
                 ex.printStackTrace();
 
@@ -92,7 +92,7 @@ public class FoodManageController {
         Result result = new Result();
         try {
             // 解析菜品
-            Food food = this.parseFood(req);
+            FoodItem food = this.parseFood(req);
 
             if(food==null){
                 result.status=Result.ERROR;
@@ -101,7 +101,7 @@ public class FoodManageController {
 
             int count = -1;
             try {
-                count = foodDao.updateOne(food);
+                count = foodDao.updateOneFood(food);
             }catch (Exception ex){
                 ex.printStackTrace();
                 result.status = Result.ERROR;
@@ -165,16 +165,16 @@ public class FoodManageController {
     /**获取菜品列表*/
     @RequestMapping(value = "/getFoodList" ,method = RequestMethod.POST)
     @ResponseBody
-    public ArrayList<Food> getFoodList(String page,HttpSession session){
+    public ArrayList<FoodItem> getFoodList(String page,HttpSession session){
         System.out.println(page);
 //        User uert = (User)session.getAttribute("user");
 //        session.setAttribute("user",new User());
 
 
         /**这里要有foodDao对象查询数据库，并返回所有查询结果*/
-        ArrayList<Food> foods = new ArrayList<>();
+        ArrayList<FoodItem> foods = new ArrayList<FoodItem>();
         for(int i=0;i<10;i++){
-            Food food = new Food();
+            FoodItem food = new FoodItem();
             food.setId(i);
             food.setName("name:"+i);
             food.setPrice(i);
@@ -189,9 +189,9 @@ public class FoodManageController {
 
 
     /**把提交的表单解析成food对象*/
-    private Food parseFood(HttpServletRequest req) throws UnsupportedEncodingException {
+    private FoodItem parseFood(HttpServletRequest req) throws UnsupportedEncodingException {
 
-        Food  food = new Food();
+        FoodItem  food = new FoodItem();
 
         // 设置编码方式
         req.setCharacterEncoding("UTF-8");

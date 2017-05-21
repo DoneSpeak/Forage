@@ -1,110 +1,127 @@
 package cn.forage.model;
 
-//import cn.forage.enums.OrderState;
-
 import java.sql.Timestamp;
-import java.util.ArrayList;
 import java.util.Date;
 
-/**
- * Created by DoneSpeak on 2017/5/17.
- */
-//该类的设计有一定问题，可以不必理会，太过复杂了
 public class Order {
-    private int id;
-//    订单编号
-    private Timestamp code;
-    private Address address;
-//    订单状态
-    private String state;
-    private Date createTime;
-    private Date finishTime;
-//    下单人
-    private User user;
-//    店铺
-    private Restaurant restaurant;
-//    食品项{food,num}
-    private ArrayList<FoodItem> foodItems;
-//    订单总价
-    private float cost;
+  private int id;
+  private Timestamp code;
+  private int userId;
+  private String address;
+  private String state;
+  private String phoneNum;
+  private float total;
+  private Date createtime;
+  private int restaurantId;
 
-    public int getId() {
-        return id;
-    }
+  public Order(int id, Timestamp code, int userId, String address, String state, String phoneNum, float toatal, Date createtime, int restaurantId) {
+    this.id = id;
+    this.code = code;
+    this.userId = userId;
+    this.address = address;
+    this.state = state;
+    this.phoneNum = phoneNum;
+    this.total = toatal;
+    this.createtime = createtime;
+    this.restaurantId = restaurantId;
+  }
 
-    public void setId(int id) {
-        this.id = id;
-    }
+  public Order() {
+  }
 
-    public Timestamp getCode() {
-        return code;
-    }
+  public void setRestaurantId(int restaurantId) {
+    this.restaurantId = restaurantId;
+  }
 
-    public void setCode(Timestamp code) {
-        this.code = code;
-    }
+  public int getRestaurantId() {
+    return restaurantId;
+  }
 
-    public Address getAddress() {
-        return address;
-    }
+  @Override
+  public String toString() {
+    return "Order{" +
+            "id=" + id +
+            ", code=" + code +
+            ", userId=" + userId +
+            ", address='" + address + '\'' +
+            ", state='" + state + '\'' +
+            ", phoneNum='" + phoneNum + '\'' +
+            //", toatal=" + total +
+            ", createtime=" + createtime +
+            ", restaurantId=" + restaurantId +
+            '}';
+  }
 
-    public void setAddress(Address address) {
-        this.address = address;
-    }
+  public String getPhoneNum() {
+    return phoneNum;
+  }
 
-    public String getState() {
-        return state;
-    }
+  public float getToatal() {
+    return total;
+  }
 
-    public void setState(String state) {
-        this.state = state;
-    }
+  public void setId(int id) {
+    this.id = id;
+  }
 
-    public Date getCreateTime() {
-        return createTime;
-    }
+  public void setPhoneNum(String phoneNum) {
+    this.phoneNum = phoneNum;
+  }
 
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
-    }
+  public void setToatal(float toatal) {
+    this.total = toatal;
+  }
 
-    public Date getFinishTime() {
-        return finishTime;
-    }
+  public int getUserId() {
+    return userId;
+  }
 
-    public void setFinishTime(Date finishTime) {
-        this.finishTime = finishTime;
-    }
 
-    public Restaurant getRestaurant() {
-        return restaurant;
-    }
+  public void setUserId(int userId) {
+    this.userId = userId;
+  }
 
-    public void setRestaurant(Restaurant restaurant) {
-        this.restaurant = restaurant;
-    }
 
-    public User getUser() {
-        return user;
-    }
+  public int getId() {
+    return id;
+  }
 
-    public void setUser(User user) {
-        this.user = user;
-    }
+  /*public void setId(int id) {
+    this.id = id;
+  }*/
 
-    public ArrayList<FoodItem> getFoodItems() {
-        return foodItems;
-    }
+  public Timestamp getCode() {
+    return code;
+  }
 
-    public void setFoodItems(ArrayList<FoodItem> foodItems) {
-        this.foodItems = foodItems;
-    }
+  public void setCode(Timestamp code) {
+    this.code = code;
+  }
 
-    public float getCost() {
-        return cost;
-    }
 
-    public void setCost(float cost) {
-        this.cost = cost;
-    }
+  public String getAddress() {
+    return address;
+  }
+
+  public void setAddress(String address) {
+    this.address = address;
+  }
+
+  public String getState() {
+    return state;
+  }
+
+  public void setState(String state) {
+    this.state = state;
+  }
+
+  public Date getCreatetime() {
+    return createtime;
+  }
+
+  public void setCreatetime(Date createtime) {
+    this.createtime = createtime;
+  }
+
+
 }

@@ -5,15 +5,34 @@ package cn.forage.model;
  */
 public class Address {
     private int id;
-//  收单人
+    //  收单人
     private String name;
-//  收单人号码
+    //  收单人号码
     private String phoneNum;
-//  收单人地址
+    //  收单人地址
     private String location;
 
-    //  该地址的拥有者 - 应该可以不要
-//    private int userId;
+    // 该地址的拥有者 - 应该可以不要
+    private int userId;
+
+    @Override
+    public String toString() {
+        return "Address{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", phoneNum='" + phoneNum + '\'' +
+                ", location='" + location + '\'' +
+                ", userId=" + userId +
+                '}';
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
+
+    public int getUserId() {
+        return userId;
+    }
 
     public int getId() {
         return id;

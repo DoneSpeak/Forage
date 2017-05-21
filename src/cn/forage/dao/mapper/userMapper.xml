@@ -20,30 +20,17 @@
         select* from user where id=#{id}
     </select>
 
+    <select id="getUser" resultMap="UserBaseResultMap">
+        select* from user where name=#{userName} and password=#{password}
+    </select>
+
+
     <select id="getUserByphoneNum" parameterType="String" resultMap="UserBaseResultMap">
         select* from user where phoneNum=#{phoneNum}
     </select>
 
     <select id="getAll" resultMap="UserBaseResultMap">
         SELECT * from user
-    </select>
-
-    <select id="getFirstPage" parameterType="int" resultMap="UserBaseResultMap">
-        select* from user order by id ASC limit #{pageSize}
-    </select>
-
-    <!-->由于id自增，存在一些用户注销账户后，id没有使用的情况，最后一页考虑的情况存在争议，具体看实际需求修改<-->
-    <select id="getLastPage" parameterType="int" resultMap="UserBaseResultMap">
-        select* from user order by id DESC limit #{pageSize}
-    </select>
-
-    <select id="getOnePage"  resultMap="UserBaseResultMap">
-        select* from user ORDER BY id ASC limit #{pageSize}*#{index},#{pageSize}
-    </select>
-
-    <!-->ceil上取整<-->
-    <select id="getPageAmount"  parameterType="int" resultType="int">
-        select ceil(count(id)/#{pageSize}) from user
     </select>
 
     <!-->增加user<-->

@@ -62,14 +62,14 @@ public class LoginoutController {
         }
 //        先判断用户是否已经注册
 //        已注册
-        boolean isExist = true;
+        int isExist = 0;
         try {
-            userDao.isExist(user);
+            isExist = userDao.isExist(user);
         }catch (Exception ex){
             ex.printStackTrace();
             return "{\"status\":\"0\",\"message\":\"注册失败\"}";
         }
-        if(isExist){
+        if(isExist == 1){
             return "{\"status\":\"0\",\"message\":\"用户已存在\"}";
         }
 
@@ -98,7 +98,7 @@ public class LoginoutController {
         User user = (User)session.getAttribute("user");
 //        先判断用户是否已经注册
 //        已注册
-        if(userDao.hasRestaurant(user.getId())){
+        if(userDao.hasRestaurant(user.getId()) == 1){
             return "{\"status\":\"0\",\"message\":\"用户已有商铺\"}";
         }
         int id = -1;

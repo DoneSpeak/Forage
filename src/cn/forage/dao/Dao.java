@@ -16,9 +16,4 @@ public interface Dao<T> {
     public int updateOne(T obj) throws Exception;
     //   根据id删除一个对象，可以重载出其他方法
     public int deleteOne(int id) throws Exception;
-//    判断是否存在
-    public boolean isExist(T obj) throws Exception;
-
-//   删除 in集合的
-    public int deleteIn(String ids) throws Exception;
 }

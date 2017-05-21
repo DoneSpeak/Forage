@@ -9,12 +9,31 @@ public class User {
     private String password;
     private String name;
 
-    public int getId() {
-        return id;
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", phoneNum='" + phoneNum + '\'' +
+                ", password='" + password + '\'' +
+                ", name='" + name + '\'' +
+                '}';
+    }
+
+    public User() {
+    }
+
+    public User(String phoneNum, String password, String name) {
+        this.phoneNum = phoneNum;
+        this.password = password;
+        this.name = name;
     }
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public int getId() {
+        return id;
     }
 
     public String getPhoneNum() {

@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class AdminController {
     @RequestMapping("/center")
     public String center(){
-        return "center";
+        return "center"; // -》 center.jsp
     }
 
     @RequestMapping("/foodManage")

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC
+        "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--这块等于dao接口的实现  namespace必须和接口的类路径一样-->
+<mapper namespace="cn.forage.dao.CartDao">
+
+
+    <resultMap id="ResultMap" type="cn.forage.model.FoodItem">
+        <id column="num" property="num" jdbcType="INTEGER"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="type" property="type" jdbcType="VARCHAR"/>
+        <result column="price" property="price" jdbcType="VARCHAR"/>
+        <result column="picture" property="picture" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <select id="getAllFoods" resultMap="ResultMap">
+        SELECT  f.price,f.picture,f.type,f.name, c.num from cart c, food f where c.userId=#{userId} and f.restaurantId=#{restaurantId} and c.foodId=f.id
+    </select>
+
+</mapper>

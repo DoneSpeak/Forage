@@ -28,6 +28,9 @@
         <typeAlias type="cn.forage.model.User" alias="User" />
         <typeAlias type="cn.forage.model.Restaurant" alias="Restaurant" />
         <typeAlias type="cn.forage.model.Order" alias="Order" />
+        <typeAlias type="cn.forage.model.FoodItem" alias="FoodItem" />
+        <typeAlias type="cn.forage.model.Cart" alias="Cart" />
+        <typeAlias type="cn.forage.model.Address" alias="Address" />
     </typeAliases>
 
     <!-- 全局别名设置，在映射文件中只需写别名，而不必写出整个类路径  -->

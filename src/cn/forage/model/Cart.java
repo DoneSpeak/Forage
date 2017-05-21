@@ -8,7 +8,7 @@ import java.util.ArrayList;
 // 该类的设计不是很确定，需要自己更加需要修改，设计
 public class Cart {
     private int userId;
-//    食品项{food,num}
+    //    食品项{food,num}
     private ArrayList<FoodItem> foodItems;
 
 
