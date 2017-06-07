@@ -81,7 +81,7 @@ public class OrderController {
 
             ArrayList<FoodItem> foods = cartDao.getAllFoods(userId,restaurantId);
             for(FoodItem item : foods){
-                orderDao.addFood2Order(item);
+                orderDao.addFoodToOrder(userId, item.getId(),item.getNum());
             }
             cartDao.clearCart(userId, restaurantId);
         }catch(Exception ex){
@@ -110,11 +110,11 @@ public class OrderController {
     public Result cancel(int restaurantId, HttpSession session){
         User user = (User)session.getAttribute("user");
         try {
-            orderDao.cancel(user.getId(), restaurantId);
+//            orderDao.cancel(user.getId(), restaurantId);
         }catch(Exception ex){
-            return new Result(0,"订单创建失败");
+            return new Result(0,"订单取消失败");
         }
-        return new Result(1,"订单创建成功");
+        return new Result(1,"订单取消成功");
     }
 
     @RequestMapping("submitOrder")

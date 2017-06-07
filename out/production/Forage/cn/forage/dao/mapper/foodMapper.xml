@@ -48,18 +48,18 @@
 
     <!-->删除food<-->
     <delete id="deleteOneFood">
-        DELETE  from food where id=#{id} and restaurantId=#{restaurantId}
+        DELETE  from food where id=#{id}
     </delete>
 
     <!-->修改food属性<-->
     <update id="updateOneFood" parameterType="FoodItem">
-        UPDATE  food set name=#{name},price=#{price},unit=#{unit},picture=#{picture},type=#{type})where restaurantId=#{restaurantId} and id=#{id}
+        UPDATE  food set name=#{name},price=#{price},unit=#{unit},picture=#{picture},type=#{type}where restaurantId=#{restaurantId} and id=#{id}
     </update>
 
 
     <!-->关于翻页的一些功能<-->
-    <select id="getAmount" resultMap="BaseResultMap">
-        SELECT count(* )from food where restaurantId=#{restaurantId}
+    <select id="getAmount" resultType="int">
+        select ifnull((SELECT count(* )from food where restaurantId=#{restaurantId}),0)
     </select>
 
     <select id="getFirstPage" resultMap="BaseResultMap">

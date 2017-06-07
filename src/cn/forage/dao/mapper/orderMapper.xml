@@ -13,7 +13,6 @@
         <result column="address" property="address" jdbcType="INTEGER"/>
         <result column="state" property="state" jdbcType="VARCHAR"/>
         <result column="createtime" property="createtime" jdbcType="DATE"/>
-        <result column="phnoeNum" property="phoneNum" jdbcType="CHAR"/>
     </resultMap>
 
     <resultMap id="FoodsBaseResultMap" type="cn.forage.model.FoodItem" >
@@ -41,6 +40,10 @@
         SELECT SUM(o_f.num * f.price) from order_food o_f,food f where o_f.orderId=#{orderId} and o_f.foodId=f.id
     </select>
 
+    <select id="getAll" resultMap="BaseResultMap">
+        select * from order where ord.userId=#{userId}
+    </select>
+
 
     <!-->订单<-->
     <insert id="insertOne" parameterType="Order">
@@ -58,20 +61,24 @@
     </update>
 
     <!-->分页<-->
-    <select id="getAmount" parameterType="int" resultMap="BaseResultMap">
-        select count(* )from `order` where id=#{restaurantId}
+    <select id="getAmount" parameterType="int" resultType="int">
+        select ifnull((select count(* )from `order` where id=#{restaurantId}),0)
     </select>
 
     <select id="getFirstPage" resultMap="BaseResultMap">
-        select* from `order` where id=#{id} ORDER BY state DESC limit #{offset},#{pageSize}
+        select* from `order` where restaurantId=#{id} ORDER BY state DESC limit #{offset},#{pageSize}
     </select>
 
     <select id="getLastPage" resultMap="BaseResultMap">
-        select* from `order` where id=#{id} ORDER BY state DESC limit #{offset},#{pageSize}
+        select* from `order` where restaurantId=#{id} ORDER BY state DESC limit #{offset},#{pageSize}
     </select>
 
     <select id="getOnePage" resultMap="BaseResultMap">
-        select* from `order` where id=#{id} ORDER BY state DESC limit #{offset},#{pageSize}
+        select* from `order` where restaurantId =#{id} ORDER BY state DESC limit #{offset},#{pageSize}
     </select>
+
+    <insert id="addFood2Order" >
+        insert into order_food(orderId,foodId,num)values(#{orderId},#{foodId},#{num});
+    </insert>
 
 </mapper>

@@ -52,10 +52,16 @@ public class CartController {
 
         User user = (User)session.getAttribute("user");
 
-//        int id = user.getId();
-        int id = 2; // test
+        int id = user.getId();
+//        int id = 2; // test
         try {
-            cartDao.addFood(id, restaurantId, foodId);
+            int num = cartDao.getFoodNum(foodId);
+            if(num < 1 ){
+                cartDao.addFood(id, foodId, 1);
+            }else{
+                num ++;
+                cartDao.updateFoodNum(id,foodId ,num);
+            }
         }catch (Exception ex){
             ex.printStackTrace();
             return new Result(0,"添加失败");
@@ -73,7 +79,7 @@ public class CartController {
         int id = user.getId();
         id = 2; // test
         try {
-            cartDao.reduceFood(id, resaurantId, foodId);
+            cartDao.reduceFood(id, foodId);
         }catch (Exception ex){
             ex.printStackTrace();
             return new Result(0,"减少失败");

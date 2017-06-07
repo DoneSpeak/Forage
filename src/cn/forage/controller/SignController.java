@@ -44,7 +44,15 @@ public class SignController {
     @RequestMapping(value = "/signin",method = RequestMethod.POST)
 //    @ResponseBody
     public String signin(String phoneNum, String password, HttpSession session, Model model){
-        User user = userDao.getUser(phoneNum,password);
+        User user = null;
+
+        try{
+            user = userDao.getUser(phoneNum,password);
+        }catch(Exception ex){
+            ex.printStackTrace();
+            model.addAttribute("error","登录失败");
+            return "signin";
+        }
 //        System.out.print(phoneNum + ":" + password + "\n");
 //        System.out.print(user);
         String result = "";

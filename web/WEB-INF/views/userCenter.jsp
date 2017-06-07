@@ -21,27 +21,27 @@
         <!--图片-->
         <tr height="100px">
             <td width="60px">店铺图片</td>
-            <td width="120px" id="w_img"></td>
+            <td width="120px" id="restaurantImg"></td>
             <td>
-                <button class="btn btn-primary btn-xs" role="button" onclick="showModifyUserMsgDialog('w_img');">修改</button>
+                <button class="btn btn-primary btn-xs" role="button" onclick="showModifyUserMsgDialog('restaurantImg');">修改</button>
             </td>
         </tr>
 
         <!--名称-->
         <tr height="40px">
             <td width="60px">店铺名称</td>
-            <td style="color: #ff030a" width="120px"><strong id="w_name"></strong></td>
+            <td style="color: #ff030a" width="120px"><strong id="name"></strong></td>
             <td>
-                <button class="btn btn-primary btn-xs" role="button" onclick="showModifyUserMsgDialog('w_name');">修改</button>
+                <button class="btn btn-primary btn-xs" role="button" onclick="showModifyUserMsgDialog('name');">修改</button>
             </td>
         </tr>
 
         <!--手机号码-->
         <tr height="40px">
             <td width="60px">手机号码</td>
-            <td style="color: #ff030a" width="120px"><strong id="w_phone"></strong></td>
+            <td style="color: #ff030a" width="120px"><strong id="phoneNum"></strong></td>
             <td>
-                <button class="btn btn-primary btn-xs" role="button" onclick="showModifyUserMsgDialog('phone_number');">修改
+                <button class="btn btn-primary btn-xs" role="button" onclick="showModifyUserMsgDialog('phoneNum');">修改
                 </button>
             </td>
         </tr>
@@ -60,7 +60,9 @@
      data-options="modal:true,collapsible:false,minimizable:false,maximizable:false,closed:true">
     <form method="post" id="ff">
         <div align="center">
+
             <strong id="item_name"></strong>
+
             <input id="item_value" type="text">
             <br><br><br>
             <!--确认修改按钮-->
@@ -89,57 +91,43 @@
     // 更新当前选择的操作项
     function updateItem() {
         var item_value = $("#item_value").val();
-        if (currentOperation != 'w_img') {
-            $('#ff').form('submit', {
-                //url: '/UserCenter/updateUser',
-                url:'/UserCenter/updateRestaurant',
-                onSubmit: function () {
-                    if (currentOperation == 'phone_number') {
-                        if (item_value == '' || item_value.length != 11) {
-                            $.messager.alert('提示', '请输入正确的手机号码');
-                            return false;
-                        }
-                        $("#item_value").attr("name", "phone_number");
-                    } else if (currentOperation == 'w_name') {
-                        if (item_value == '') {
-                            $.messager.alert('提示', '店铺名不能为空');
-                            return false;
-                        }
-                        $("#item_value").attr("name", "w_name");
-                    }
-                },
-                success: function (data) {
-                    var msg = JSON.parse(data);
-                    $.messager.alert("提示", msg.id, null, function () {
-                        if (msg.state == 'ok') {
-                            initSellerMsg();
-                        }
-                        $("#update_dialog").window("close");
-                    })
-                }
-            });
-        } else {
-            $("#item_value").attr("name", "w_img");
-            console.log("000000000000000000000");
-            $('#ff').form('submit', {
-                url: '/UserCenter/updateImage',
-                onSubmit: function () {
-                    if(item_value.length==0) {
-                        $.messager.alert("提示","图片不可以为空");
+        var tipMsg = "";
+        if(currentOperation=="restaurantImg"){
+            tipMsg = "图片不可以为空";
+            $("#item_value").attr("name", "restaurantImg");
+        }else if(currentOperation=="name"){
+            tipMsg = "店铺名不能为空"
+            $("#item_value").attr("name", "name");
+        }else if (currentOperation=="phoneNum"){
+            tipMsg = "请输入正确的手机号码"
+            $("#item_value").attr("name", "phoneNum");
+        }
+
+        $('#ff').form('submit', {
+            url:'/admin/UserCenter/'+currentOperation,
+            onSubmit: function () {
+                if (currentOperation == 'phoneNum') {
+                    if (item_value == '' || item_value.length != 11) {
+                        $.messager.alert('提示', tipMsg);
                         return false;
                     }
-                },
-                success: function (data) {
-                    var jsonData = JSON.parse(data);
-                    $.messager.alert("提示",jsonData.msg,null,function () {
-                        if (jsonData.state == 'ok') {
-                            initSellerMsg();
-                        }
-                        $("#update_dialog").window("close");
-                    });
+                } else {
+                    if (item_value == '') {
+                        $.messager.alert('提示', tipMsg);
+                        return false;
+                    }
                 }
-            });
-        }
+            },
+            success: function (data) {
+                var response = JSON.parse(data);
+                $.messager.alert("提示", response.message, null, function () {
+                    if (response.status == 1) {
+                        initSellerMsg();
+                    }
+                    $("#update_dialog").window("close");
+                })
+            }
+        });
     }
 
     // 取消更新
@@ -153,23 +141,23 @@
         // 清楚上次输入的内容
         $("#item_value").val('');
 
-        if (flag == 'phone_number') {
+        if (flag == 'phoneNum') {
             // 修改电话号码
-            currentOperation = 'phone_number';
+            currentOperation = 'phoneNum';
             $("#ff").removeAttr("enctype");
             $("#item_value").attr("type", "text");
             $("#item_name").html('请输入新的手机号码:');
 
-        } else if (flag == 'w_name') {
+        } else if (flag == 'name') {
             // 修改店铺名称
-            currentOperation = 'w_name';
+            currentOperation = 'name';
             $("#ff").removeAttr("enctype");
             $("#item_value").attr("type", "text");
             $("#item_name").html('请输入新的店铺名称:');
 
-        } else if (flag == 'w_img') {
+        } else if (flag == 'restaurantImg') {
             // 修改窗口图片
-            currentOperation = 'w_img';
+            currentOperation = 'restaurantImg';
             $("#ff").attr("enctype", "multipart/form-data");
             $("#item_value").attr("type", "file");
             $("#item_name").html('请选择新的图片:');
@@ -179,7 +167,7 @@
             $.messager.confirm('提示', '账户注销后将不能再使用，确定注销账户吗?', function (r) {
                 if (r) {
                     $.ajax({
-                        url: '/UserCenter/logoutAccount',
+                        url: '/admin/UserCenter/logoutAccount',
                         success: function (msg) {
                             $.messager.alert("提示", msg.msg, null, function () {
                                 if (msg.state == 'ok') {
@@ -201,16 +189,18 @@
         title: '店铺信息'
     });
     function initSellerMsg() {
+
         $.ajax({
-            url: '/UserCenter/getRestaurant',
+            url: '/admin/UserCenter/getRestaurant',
             success: function (msg) {
-                $("#wname").html(msg.windowname);
-                $("#wphone").html(msg.phonenumber);
-                $("#wimg").html('<img src="' + msg.windowimg + '" width="100px" height="100px"/>');
+                $("#name").html(msg.name);
+                $("#phoneNum").html(msg.phoneNum);
+                $("#restaurantImg").html('<img src="' + msg.restaurantImg + '" width="100px" height="100px"/>');
             }
         });
     }
     initSellerMsg();
+
 
 </script>
 </body>

@@ -9,8 +9,8 @@ import java.util.ArrayList;
  */
 public interface PageDao<T> {
 
-    public int getAmount(int id);
-    public ArrayList<T> getFirstPage(@Param("id") int id, @Param("offset") int offset, @Param("pageSize") int pageSize) throws Exception;
-    public ArrayList<T> getLastPage(@Param("id") int id, @Param("offset") int offset, @Param("pageSize") int pageSize) throws Exception;
-    public ArrayList<T> getOnePage(@Param("id") int id, @Param("offset") int offset, @Param("pageSize") int pageSize) throws Exception;
+    int getAmount(int id)throws Exception;
+    ArrayList<T> getFirstPage(@Param("id") int id, @Param("offset") int offset, @Param("pageSize") int pageSize) throws Exception;
+    ArrayList<T> getLastPage(@Param("id") int id, @Param("offset") int offset, @Param("pageSize") int pageSize) throws Exception;
+    ArrayList<T> getOnePage(@Param("id") int id, @Param("offset") int offset, @Param("pageSize") int pageSize) throws Exception;
 }

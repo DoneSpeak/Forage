@@ -21,6 +21,8 @@ public class FoodItem {
     //月售量
     private int saleNum;
 
+    private int restaurantId;
+
     public void setSaleNum(int saleNum) {
         this.saleNum = saleNum;
     }
@@ -97,5 +99,13 @@ public class FoodItem {
 
     public void setNum(int num) {
         this.num = num;
+    }
+
+    public int getRestaurantId() {
+        return restaurantId;
+    }
+
+    public void setRestaurantId(int restaurantId) {
+        this.restaurantId = restaurantId;
     }
 }

@@ -81,7 +81,7 @@
             <tr>
                 <td>
                     <div class="input-group">
-                        <span class="input-group-addon">价格类型</span>
+                        <span class="input-group-addon">单位</span>
                         <input name="unit"
                                type="text"
                                class="form-control"
@@ -171,7 +171,7 @@
     // 加载菜品列表
     $(function () {
         $("#food_data_grid").datagrid({
-            url: '/FoodManage/getFoodList',
+            url: '/admin/FoodManage/getFoodList',
             iconCls: 'icon-save',
             striped: "true",
             pagination: 'true',
@@ -208,15 +208,15 @@
                     title: '美食图片',
                     field: 'picture',
                     align: 'center',
-                    width: 100,
+                    width: 30,
                     formatter: function (value, row, index) {
-                        return '<img width="90px" height="90px" src="' + row.foodimg + '" />';
+                        return '<img width="90px" height="90px" src="' + row.picture + '" />';
                     }
                 },
-                {title: '编号', field: 'id', width: 30, sortable: 'true'},
+                {title: '编号', field: 'id', width: 50, sortable: 'true'},
                 {title: '名称', field: 'name', width: 100, sortable: 'true'},
-                {title: '价格', field: 'price', width: 100, sortable: 'true'},
-                {title:'价格类型',field:'unit',width:30,sortable:'true'},
+                {title: '价格', field: 'price', width: 20, sortable: 'true'},
+                {title:'单位',field:'unit',width:20,sortable:'true'},
                 {title:'种类',field:'type',width:30,sortable:'true'},
             ]]
 
@@ -274,12 +274,13 @@
         $.each(selections, function (index, ele) {
             ids += ele.id + ',';
         });
+//        ids = ids.substr(0,ids.length-1);
         $.messager.confirm("提示", "确定删除" + selections.length + "条数据?", function (r) {
             if (r) {
                 $.ajax({
-                    url: '/FoodManage/deleteFood',
+                    url: '/admin/FoodManage/deleteFood',
                     type: 'post',
-                    data: {deleteId: ids},
+                    data: {ids: ids},
                     success: function (msg) {
                         $.messager.alert("提示", msg.message, null, function () {
                             if (msg.status == 1) {
@@ -319,7 +320,7 @@
     function btn_submit() {
 
         $('#form_submit_food').form('submit', {
-            url: '/FoodManage/'+operation,
+            url: '/admin/FoodManage/'+operation,
             onSubmit: function () {
                 if ($("#name").val().length < 1
                     || $("#price").val().length < 1
@@ -333,6 +334,7 @@
             success: function (data) {
                 var response = JSON.parse(data);
                 $.messager.alert("提示", response.message, null, function () {
+                    console.log(response);
                     if (response.status == 1) {
                         $('#dialog').window('close');
                         $('#food_data_grid').datagrid('reload');

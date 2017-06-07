@@ -2,6 +2,7 @@ package cn.forage.controller;
 
 import cn.forage.dao.FoodDao;
 import cn.forage.model.FoodItem;
+import cn.forage.model.Restaurant;
 import cn.forage.model.Result;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import sun.reflect.generics.tree.ReturnType;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -26,7 +28,7 @@ import java.util.UUID;
  */
 /**这个类处理“菜品管理”的后台事物*/
 @Controller
-@RequestMapping("/FoodManage")
+@RequestMapping("/admin/FoodManage")
 public class FoodManageController {
 
     /**操作数据库的对象*/
@@ -36,7 +38,10 @@ public class FoodManageController {
     /**项数据库添加菜品*/
     @RequestMapping(value = "/addFood", method = RequestMethod.POST)
     @ResponseBody
-    public Result addFood(HttpServletRequest req){
+    public Result addFood(HttpServletRequest req ,HttpSession session){
+
+        Restaurant restaurant = (Restaurant)session.getAttribute("restaurant");
+        int res_id = restaurant.getId();
 
         // 返回结果对象
         Result result = new Result();
@@ -44,41 +49,23 @@ public class FoodManageController {
             // 解析菜品
             FoodItem food = this.parseFood(req);
 
+
             if(food==null){
-                result.status = Result.ERROR;
-                result.message = "文件上传异常或信息格式不正确";
-                return result;
+                throw new Exception();
             }
+            food.setRestaurantId(res_id);
 
-            System.out.println(food);
+            // 添加到数据库
+            foodDao.addOneFood(food);
 
-            int count = -1;
-            try {
-                foodDao.addOneFood(food);
-            }catch(Exception ex){
-                ex.printStackTrace();
-
-                result.status = Result.ERROR;
-                result.message = "添加失败";
-
-                return result;
-            }
-
-            if (count == 1) {
-                //添加成功
-                result.status = Result.OK;
-                result.message = "添加成功";
-            } else {
-                result.status = Result.ERROR;
-                result.message = "添加失败";
-            }
-            return result;
-        }catch (UnsupportedEncodingException e){
+            result.status = Result.OK;
+            result.message = "添加成功";
+        }catch (Exception e){
             result.status = Result.ERROR;
-            result.message = "字符编码不支持";
+            result.message = "添加失败";
+        }finally {
             return result;
         }
-
 
     }
 
@@ -86,7 +73,10 @@ public class FoodManageController {
     /**更新菜品*/
     @RequestMapping(value = "/updateFood" ,method = RequestMethod.POST)
     @ResponseBody
-    public Result updateFood(HttpServletRequest req){
+    public Result updateFood(HttpServletRequest req,HttpSession session){
+
+        Restaurant restaurant = (Restaurant)session.getAttribute("restaurant");
+        int res_id = restaurant.getId();
 
         // 返回结果对象
         Result result = new Result();
@@ -95,30 +85,22 @@ public class FoodManageController {
             FoodItem food = this.parseFood(req);
 
             if(food==null){
-                result.status=Result.ERROR;
-                result.message = "文件上传异常或信息格式不正确";
+                throw new Exception();
             }
+            food.setRestaurantId(res_id);
 
-            int count = -1;
-            try {
-                count = foodDao.updateOneFood(food);
-            }catch (Exception ex){
-                ex.printStackTrace();
-                result.status = Result.ERROR;
-                result.message = "修改失败";
-            }
+            // 添加到数据库
+            foodDao.updateOneFood(food);
 
-            if (count == 1) {
-                //修改成功
-                result.status = Result.OK;
-                result.message = "修改成功";
-            } else {
-                result.status = Result.ERROR;
-                result.message = "修改失败";
-            }
-        }catch (UnsupportedEncodingException e){
+
+            //修改成功
+            result.status = Result.OK;
+            result.message = "修改成功";
+        }catch (Exception e){
+            e.printStackTrace();
+
             result.status = Result.ERROR;
-            result.message = "字符编码不支持";
+            result.message = "修改失败";
 
         }finally {
             return result;
@@ -131,31 +113,33 @@ public class FoodManageController {
     @ResponseBody
     public Result deleteFood(String ids){
 
-        ids = ids.substring(0,ids.lastIndexOf(","));
-        ids = "{"+ids +"}";
+
+        // 把要删除的所有菜品项的id 解析到array数组中
+        String[] array = ids.split(",");
 
         // 返回的操作结果对象
         Result result = null;
 
-        int count = -1;
+        // 删除的记录数
+        int count = 0;
 
+        System.out.println("before");
         try{
-            count = foodDao.deleteIn(ids);
+            for (String id:array){
+                count += foodDao.deleteOneFood(Integer.parseInt(id));
+            }
         }catch(Exception ex){
             ex.printStackTrace();
-            result.status = Result.ERROR;
-            result.message = "删除失败";
-        }
-
-        if(count==-1){
             // 删除失败
-            result.status = Result.ERROR;
-            result.message = "删除失败";
-        }else{
-            // 删除成功
             result.status = Result.OK;
-            result.message = "成功删除 "+count+" 条记录";
+            result.message = "删除失败";
+            return result;
         }
+        System.out.println(count);
+
+        // 删除成功
+        result.status = Result.OK;
+        result.message = "成功删除 "+array.length+" 条记录";
 
         return result;
 
@@ -165,25 +149,43 @@ public class FoodManageController {
     /**获取菜品列表*/
     @RequestMapping(value = "/getFoodList" ,method = RequestMethod.POST)
     @ResponseBody
-    public ArrayList<FoodItem> getFoodList(String page,HttpSession session){
-        System.out.println(page);
-//        User uert = (User)session.getAttribute("user");
-//        session.setAttribute("user",new User());
+    public FoodList getFoodList(int page, int rows,HttpSession session){
+
+        Restaurant restaurant = (Restaurant)session.getAttribute("restaurant");
+        int res_id = restaurant.getId();
 
 
-        /**这里要有foodDao对象查询数据库，并返回所有查询结果*/
-        ArrayList<FoodItem> foods = new ArrayList<FoodItem>();
-        for(int i=0;i<10;i++){
-            FoodItem food = new FoodItem();
-            food.setId(i);
-            food.setName("name:"+i);
-            food.setPrice(i);
-            food.setUnit("unit:"+i);
-            food.setPicture("url:"+i);
-            food.setType("type:蔬菜");
-            foods.add(food);
+        /**这里由foodDao对象查询数据库，并返回所有查询结果*/
+        ArrayList<FoodItem> foods  = null;
+        int total = 0;
+        try {
+            // 获取一页food
+            foods = foodDao.getOnePage(res_id,(page-1)*rows,rows);
+//            foods = foodDao.getOnePage(2,(page-1)*rows,rows);
+            // 获取总记录数
+            total = foodDao.getAmount(res_id);
+//            total = foodDao.getAmount(2);
+        } catch (Exception e) {
+            e.printStackTrace();
+
         }
-        return foods;
+        // 测试用例
+//        foods = new ArrayList<>();
+//        for(int i=0;i<10;i++){
+//            FoodItem food = new FoodItem();
+//            food.setId(i);
+//            food.setName("name:"+i);
+//            food.setPrice(i);
+//            food.setUnit("unit:"+i);
+//            food.setPicture("url:"+i);
+//            food.setType("type:蔬菜");
+//            foods.add(food);
+//        }
+
+        FoodList result = new FoodList();
+        result.total = total;
+        result.rows = foods;
+        return result;
 
     }
 
@@ -200,9 +202,6 @@ public class FoodManageController {
 
         //设置内存临界值
         factory.setSizeThreshold(10 * 1024 * 1024);
-
-        //设置临时文件夹
-//        factory.setRepository(new File(System.getProperty("java.io.tmp")));
 
         ServletFileUpload servletFileUpload = new ServletFileUpload(factory);
 
@@ -234,7 +233,6 @@ public class FoodManageController {
                         default:
                             break;
                     }
-                    System.out.println(fieldName+":"+value);
                 } else {
                     //上传的是文件
 
@@ -244,7 +242,6 @@ public class FoodManageController {
                     String fileName = fileItem.getName();
                     fileName = uuid + "_" + fileName;
                     String picture = req.getScheme() + "://" + req.getServerName() + ":" + req.getServerPort() + "/img/" + fileName;
-                    System.out.println(picture);
                     food.setPicture(picture);
 
                     new File(req.getServletContext().getRealPath("/img")).mkdir();
@@ -263,6 +260,14 @@ public class FoodManageController {
             e.printStackTrace();
         }
         return food;
+    }
+
+    // 一个内部类，用来返回查询菜品列表的结果，字段必须为total 和 rows
+    static class FoodList{
+        // 记录总数
+        public int total = 0;
+        // 查询结果记录
+        public List<FoodItem> rows = null;
     }
 
 }

@@ -15,13 +15,18 @@
     </resultMap>
 
 
+    <!-->判断用户是否同时是商家用户<-->
+    <select id="hasRestaurant" parameterType="int" resultType="int">
+        select if((SELECT r.owner FROM `restaurant` r,`user`u WHERE r.owner=u.id and u.id=#{id}),1,0)
+    </select>
+
     <!-- findById必须和接口中的方法名一样  返回一个User  就是刚才的别名  如果不弄别名要连类路径一起写 麻烦-->
     <select id="getOne" parameterType="int" resultMap="UserBaseResultMap">
         select* from user where id=#{id}
     </select>
 
     <select id="getUser" resultMap="UserBaseResultMap">
-        select* from user where phoneNum=#{phoneNum} and password=#{password}
+        select* from user where name=#{phoneNum} and password=#{password}
     </select>
 
 
@@ -47,4 +52,5 @@
     <update id="updateOne" parameterType="User">
     update user set name=#{name},password=#{password},phoneNum=#{phoneNum} where id=#{id}
     </update>
+
 </mapper>

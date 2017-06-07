@@ -36,7 +36,7 @@
 <script>
     $(function () {
         $("#data_grid").datagrid({
-            url: '/OrderManage/getOrderList',
+            url: '/admin/OrderManage/getOrderList',
             striped: "true",
             pagination: 'true',
             pageSize: 10,
@@ -48,10 +48,11 @@
             isField: 'id',
             sortName: 'id',
             sortOrder: 'asc',
-            columns: [[{title: '编号', field: 'id', width: 100, sortable: 'true'},
-                {title: '菜品名称', field: 'foodName', width: 100, sortable: 'true'},
-                {title: '菜品数量', field: 'foodNumber', width: 100, sortable: 'true'},
-                {title: '取餐时间', field: 'getFoodTime', width: 100, sortable: 'true'}]]
+            columns: [[{title: '编号', field: 'code', width: 100, sortable: 'true'},
+                {title: '订餐人', field: 'buyerName', width: 100, sortable: 'true'},
+                {title: '总价', field: 'totalMoney', width: 100, sortable: 'true'},
+                {title: '下单时间', field: 'orderTime', width: 100, sortable: 'true'},
+                {title: '订单状态', field: 'status', width: 100, sortable: 'true'}]]
         });
     });
 </script>
